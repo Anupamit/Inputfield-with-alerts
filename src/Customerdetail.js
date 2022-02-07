@@ -58,25 +58,24 @@ function Customerdetail() {
         } 
         else if((faddress.length === 0 || faddress.length > 10)){
             alert("address is invalid")
-
         }        
         else if(fcylinder === ""){
             alert("cyclinder is empty")
-
         }        
-        
         else if(fmonth === ""){
             alert("month is empty")
-
         }
-        
-
         if(custstr.length===5 && (fname.length>0 && fname.length<11) && faddress.length > 0 && fmonth.length>0 && fcylinder.length > 0){
             console.log(fcustno,fname,faddress,fcylinder,fmonth);
         }
-        
     }
-    
+    const reset =()=>{
+        setFcustno("")
+        setFname("")
+        setFaddress("")
+        setFcylinder("")
+        setFmonth("")
+    }
     return  (
         <div>
             <h2>Customer Details</h2>
@@ -90,7 +89,7 @@ function Customerdetail() {
                 <input placeholder='Village' type="text" value={faddress} onChange={address}/>
             </div>
             <div>
-                <select onChange={cylinder}>
+                <select value={fcylinder} onChange={cylinder}>
                     <option>Choose Cylinder Types</option>
                     <option value="5Kg">5Kg</option>
                     <option value="14Kg">14Kg</option>
@@ -98,7 +97,7 @@ function Customerdetail() {
                 </select>
             </div>
             <div>
-                <select onChange={months}>
+                <select value={fmonth} onChange={months}>
                     <option>Choose Months</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
@@ -119,7 +118,8 @@ function Customerdetail() {
                 custaddress={faddress} custcylinder={fcylinder} custmonth={fmonth} />
             </div>
             <div>
-                <button onClick={submit}>Submit Detail</button>
+                <button onClick={submit}>Submit</button>
+                <button onClick={reset}>Reset</button>
             </div>
         </div>
     );
