@@ -7,9 +7,9 @@ function Customerdetail() {
     const [faddress, setFaddress] = useState("")
     const [fcylinder, setFcylinder] = useState("")
     const [fmonth, setFmonth] = useState("")
-
+    const [customers, setCustomers] = useState([])
+    const [showDetail, setShowDetail] = useState(false)
     const accno =(event)=>{
-        console.log("Account No-", event.target.value);
         let caccno = event.target.value
         let strcaccno =caccno+''
         let length = strcaccno.length
@@ -19,8 +19,8 @@ function Customerdetail() {
             alert("More than 5 digits is not allowed")
         }
     }
+
     const name =(event)=>{
-        console.log("Name-", event.target.value);
         let cname =  event.target.value
         let length = cname.length
         if(length <= 10){
@@ -31,7 +31,6 @@ function Customerdetail() {
     }
     
     const address =(event)=>{
-        console.log("Village-", event.target.value);
         let caddress = event.target.value
         let length = caddress.length
         if (length <= 10){
@@ -41,14 +40,13 @@ function Customerdetail() {
         }
     }
     const cylinder =(event)=>{
-        console.log("Cylinder-", event.target.value);
         setFcylinder(event.target.value)
     }
     const months =(event)=>{
-        console.log("Months-", event.target.value);
         setFmonth(event.target.value)
     }
     const submit =()=>{
+
         let custstr = fcustno+''
         if (custstr.length !== 5){
             alert("customer id  is invalid")
@@ -66,16 +64,26 @@ function Customerdetail() {
             alert("month is empty")
         }
         if(custstr.length===5 && (fname.length>0 && fname.length<11) && faddress.length > 0 && fmonth.length>0 && fcylinder.length > 0){
-            console.log(fcustno,fname,faddress,fcylinder,fmonth);
+            setShowDetail(true)
+            const page = {fcustno, fname, faddress, fcylinder, fmonth}
+            setCustomers([...customers, page])
+            console.log(customers);
         }
     }
+
     const reset =()=>{
         setFcustno("")
         setFname("")
         setFaddress("")
         setFcylinder("")
         setFmonth("")
+        setShowDetail(false)
     }
+    // const creteTable =()=>{
+    //     console.log("createtable");
+    //     let table =[]
+
+    // }
     return  (
         <div>
             <h2>Customer Details</h2>
@@ -114,12 +122,37 @@ function Customerdetail() {
                 </select>
             </div>
             <div>
-                <Customerdetailback custid={fcustno} custname={fname} 
-                custaddress={faddress} custcylinder={fcylinder} custmonth={fmonth} />
+                {showDetail ?  <Customerdetailback custid={fcustno} custname={fname} 
+                custaddress={faddress} custcylinder={fcylinder} custmonth={fmonth} />:'no data to show'}
+               
+
             </div>
             <div>
                 <button onClick={submit}>Submit</button>
                 <button onClick={reset}>Reset</button>
+            </div>
+            <div>
+                {showDetail &&  <table>
+                    <thead>
+                        <tr>
+                            <th>Cust id</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Cylinder</th>
+                            <th>Months</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{fcustno}</td>
+                            <td>{fname}</td>
+                            <td>{faddress}</td>
+                            <td>{fcylinder}</td>
+                            <td>{fmonth}</td>
+                        </tr>
+                    </tbody>
+                </table>}
+               
             </div>
         </div>
     );
